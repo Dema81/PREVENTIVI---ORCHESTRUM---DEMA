@@ -72,7 +72,6 @@
             <p><strong>Servizio:</strong> Traduzione</p>
             <p><strong>Lingue:</strong> <span id="languages"></span></p>
             <p><strong>Importo:</strong> <span id="amount"></span></p>
-            <p><strong>Scadenza:</strong> <span id="due-date"></span></p>
         </div>
         <div class="buttons">
             <button class="accept" onclick="submitResponse('accept')">Accetta preventivo</button>
@@ -99,7 +98,6 @@
                     document.getElementById('quote-subject').textContent = data.subject;
                     document.getElementById('languages').textContent = data.languages;
                     document.getElementById('amount').textContent = data.amount;
-                    document.getElementById('due-date').textContent = data.dueDate;
                 })
                 .catch(error => console.error('Errore nel recupero dei dati:', error));
         }
