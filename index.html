@@ -67,12 +67,12 @@
         </div>
         <h2>Prendi una decisione in merito al preventivo</h2>
         <div class="details">
-            <p><strong>Numero:</strong> 2024/7342</p>
-            <p><strong>Oggetto:</strong> AGGIORNAMENTO - Offerta per traduzione documenti (ITA-PL)</p>
+            <p><strong>Numero:</strong> <span id="quote-number"></span></p>
+            <p><strong>Oggetto:</strong> <span id="quote-subject"></span></p>
             <p><strong>Servizio:</strong> Traduzione</p>
-            <p><strong>Lingue:</strong> IT-IT → PL</p>
-            <p><strong>Importo:</strong> € 1.655,00</p>
-            <p><strong>Scadenza:</strong> 10-03-2025 14:47 CET</p>
+            <p><strong>Lingue:</strong> <span id="languages"></span></p>
+            <p><strong>Importo:</strong> <span id="amount"></span></p>
+            <p><strong>Scadenza:</strong> <span id="due-date"></span></p>
         </div>
         <div class="buttons">
             <button class="accept" onclick="submitResponse('accept')">Accetta preventivo</button>
@@ -84,10 +84,29 @@
     <script>
         function submitResponse(response) {
             // Reindirizza alla tua API per registrare la risposta
-            const quoteId = '2024/7342'; // ID del preventivo
+            const quoteId = document.getElementById('quote-number').textContent; // ID del preventivo
             const url = `https://tuosito.com/api/response?quote=${quoteId}&response=${response}`;
             window.location.href = url;
         }
+
+        // Funzione per sostituire i valori dinamici
+        function updateQuoteDetails() {
+            const quoteNumber = '2024/7342'; // Numero del preventivo
+            const subject = 'AGGIORNAMENTO - Offerta per traduzione documenti (ITA-PL)'; // Oggetto
+            const languages = 'ITA-PL'; // Lingue (puoi estrarlo dal testo dell'oggetto)
+            const amount = '€ 1.655,00'; // Importo
+            const dueDate = new Date().toLocaleString('it-IT'); // Data di scadenza
+
+            // Aggiorna il contenuto HTML
+            document.getElementById('quote-number').textContent = quoteNumber;
+            document.getElementById('quote-subject').textContent = subject;
+            document.getElementById('languages').textContent = languages;
+            document.getElementById('amount').textContent = amount;
+            document.getElementById('due-date').textContent = dueDate;
+        }
+
+        // Chiamata per aggiornare i dettagli al caricamento della pagina
+        updateQuoteDetails();
     </script>
 </body>
 </html>
