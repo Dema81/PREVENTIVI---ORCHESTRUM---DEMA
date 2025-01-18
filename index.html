@@ -84,14 +84,14 @@
         // Funzione per inviare la risposta del preventivo
         function submitResponse(response) {
             const quoteId = document.getElementById('quote-number').textContent; // ID del preventivo
-            const url = `https://dema81.github.io/PREVENTIVI---ORCHESTRUM---DEMA/api/response?quote=${quoteId}&response=${response}`;
+            const url = `https://tuosito.com/api/response?quote=${quoteId}&response=${response}`;
             window.location.href = url;
         }
 
-        // Funzione per recuperare i dettagli del preventivo tramite il file JSON su GitHub
+        // Funzione per recuperare i dettagli del preventivo tramite JSON
         function fetchQuoteDetails() {
-            // URL del file JSON ospitato su GitHub Pages
-            fetch('https://github.com/Dema81/PREVENTIVI---ORCHESTRUM---DEMA/blob/main/quote-details.json')
+            // URL del file JSON su GitHub
+            fetch('https://raw.githubusercontent.com/dema81/PREVENTIVI---ORCHESTRUM---DEMA/main/quote-details.json')
                 .then(response => response.json())
                 .then(data => {
                     // Aggiorna il contenuto della pagina con i dati ricevuti
