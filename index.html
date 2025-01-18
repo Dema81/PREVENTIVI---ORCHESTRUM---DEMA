@@ -81,6 +81,32 @@
     </div>
 
     <script>
+        // Funzione per ottenere i parametri dall'URL
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        // Funzione per caricare i dettagli del preventivo dall'URL
+        function loadQuoteDetails() {
+            const quoteID = getParameterByName('quoteID');
+            const subject = getParameterByName('subject');
+            const service = getParameterByName('service');
+            const languages = getParameterByName('languages');
+            const amount = getParameterByName('amount');
+
+            // Aggiorna il contenuto della pagina con i dati ricevuti
+            document.getElementById('quote-number').textContent = quoteID || "N/A";
+            document.getElementById('quote-subject').textContent = subject || "N/A";
+            document.getElementById('service').textContent = service || "N/A";
+            document.getElementById('languages').textContent = languages || "N/A";
+            document.getElementById('amount').textContent = amount ? `€${amount}` : "N/A";
+        }
+
         // Funzione per inviare la risposta del preventivo
         function submitResponse(response) {
             const quoteId = document.getElementById('quote-number').textContent; // ID del preventivo
@@ -88,23 +114,8 @@
             window.location.href = url;
         }
 
-        // Funzione per recuperare i dettagli del preventivo tramite JSON
-        function fetchQuoteDetails() {
-            // URL del file JSON su GitHub
-            fetch('https://raw.githubusercontent.com/dema81/PREVENTIVI---ORCHESTRUM---DEMA/main/quote-details.json')
-                .then(response => response.json())
-                .then(data => {
-                    // Aggiorna il contenuto della pagina con i dati ricevuti
-                    document.getElementById('quote-number').textContent = data.number;
-                    document.getElementById('quote-subject').textContent = data.subject;
-                    document.getElementById('languages').textContent = data.languages;
-                    document.getElementById('amount').textContent = data.amount;
-                })
-                .catch(error => console.error('Errore nel recupero dei dati:', error));
-        }
-
         // Carica i dettagli del preventivo quando la pagina è pronta
-        document.addEventListener('DOMContentLoaded', fetchQuoteDetails);
+        document.addEventListener('DOMContentLoaded', loadQuoteDetails);
     </script>
 </body>
 </html>
