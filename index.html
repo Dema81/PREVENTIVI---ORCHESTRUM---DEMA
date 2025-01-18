@@ -82,31 +82,30 @@
     </div>
 
     <script>
+        // Funzione per inviare la risposta del preventivo
         function submitResponse(response) {
-            // Reindirizza alla tua API per registrare la risposta
             const quoteId = document.getElementById('quote-number').textContent; // ID del preventivo
             const url = `https://tuosito.com/api/response?quote=${quoteId}&response=${response}`;
             window.location.href = url;
         }
 
-        // Funzione per sostituire i valori dinamici
-        function updateQuoteDetails() {
-            const quoteNumber = '2024/7342'; // Numero del preventivo
-            const subject = 'AGGIORNAMENTO - Offerta per traduzione documenti (ITA-PL)'; // Oggetto
-            const languages = 'ITA-PL'; // Lingue (puoi estrarlo dal testo dell'oggetto)
-            const amount = '€ 1.655,00'; // Importo
-            const dueDate = new Date().toLocaleString('it-IT'); // Data di scadenza
-
-            // Aggiorna il contenuto HTML
-            document.getElementById('quote-number').textContent = quoteNumber;
-            document.getElementById('quote-subject').textContent = subject;
-            document.getElementById('languages').textContent = languages;
-            document.getElementById('amount').textContent = amount;
-            document.getElementById('due-date').textContent = dueDate;
+        // Funzione per recuperare i dettagli del preventivo tramite API
+        function fetchQuoteDetails() {
+            fetch('http://localhost:3000/api/quote')  // URL del tuo server
+                .then(response => response.json())
+                .then(data => {
+                    // Aggiorna il contenuto della pagina con i dati ricevuti
+                    document.getElementById('quote-number').textContent = data.number;
+                    document.getElementById('quote-subject').textContent = data.subject;
+                    document.getElementById('languages').textContent = data.languages;
+                    document.getElementById('amount').textContent = data.amount;
+                    document.getElementById('due-date').textContent = data.dueDate;
+                })
+                .catch(error => console.error('Errore nel recupero dei dati:', error));
         }
 
-        // Chiamata per aggiornare i dettagli al caricamento della pagina
-        updateQuoteDetails();
+        // Carica i dettagli del preventivo quando la pagina è pronta
+        document.addEventListener('DOMContentLoaded', fetchQuoteDetails);
     </script>
 </body>
 </html>
