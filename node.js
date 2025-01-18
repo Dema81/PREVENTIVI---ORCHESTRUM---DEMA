@@ -11,6 +11,7 @@ app.get('/api/quote', (req, res) => {
     const quoteDetails = {
         number: "123456",
         subject: "Traduzione manuale utente",
+        service: "Translation",
         languages: "Italiano, Inglese, Tedesco",
         amount: "€1000"
     };
