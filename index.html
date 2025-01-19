@@ -58,6 +58,18 @@
             color: #888;
             margin-top: 10px;
         }
+        #rejectionReasons {
+            display: none;
+            margin-top: 20px;
+            text-align: left;
+        }
+        #rejectionReasons h3 {
+            margin-bottom: 10px;
+        }
+        #rejectionReasons label {
+            display: block;
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -75,8 +87,18 @@
         </div>
         <div class="buttons">
             <button class="accept" onclick="sendResponse('accept')">Accetta preventivo</button>
-            <button class="reject" onclick="sendResponse('reject')">Rifiuta preventivo</button>
+            <button class="reject" onclick="showRejectionReasons()">Rifiuta preventivo</button>
         </div>
+
+        <!-- Sezione per i motivi del rifiuto -->
+        <div id="rejectionReasons">
+            <h3>Seleziona il motivo del rifiuto:</h3>
+            <label><input type="radio" name="rejectionReason" value="Tempi troppo lunghi"> Tempi troppo lunghi</label><br>
+            <label><input type="radio" name="rejectionReason" value="Prezzo poco più alto di un altro fornitore"> Prezzo poco più alto di un altro fornitore</label><br>
+            <label><input type="radio" name="rejectionReason" value="Prezzo troppo fuori budget - preventivo da rivedere"> Prezzo troppo fuori budget - preventivo da rivedere</label><br>
+            <button onclick="sendResponse('reject')">Invia risposta</button>
+        </div>
+
         <p class="warning">Attenzione! Questa azione non può essere annullata.</p>
     </div>
 
@@ -114,6 +136,11 @@
         // Imposta l'ID della mail originale nel campo nascosto
         document.getElementById('entryID').value = entryID;
 
+        // Funzione per mostrare i motivi del rifiuto
+        function showRejectionReasons() {
+            document.getElementById('rejectionReasons').style.display = 'block';
+        }
+
         // Funzione per gestire la risposta
         function sendResponse(response) {
             const mailSubject = "QUOTE: " + quoteID + " - " + subject;
@@ -124,6 +151,11 @@
                 body = "ACCETTO IL PREVENTIVO.\n\n";
             } else {
                 body = "RIFIUTO IL PREVENTIVO.\n\n";
+                // Aggiungi il motivo del rifiuto se selezionato
+                const rejectionReason = document.querySelector('input[name="rejectionReason"]:checked');
+                if (rejectionReason) {
+                    body += "Motivo del rifiuto: " + rejectionReason.value + "\n\n";
+                }
             }
 
             body += "Dettagli:\n";
