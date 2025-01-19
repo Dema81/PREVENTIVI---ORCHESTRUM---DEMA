@@ -80,6 +80,9 @@
         <p class="warning">Attenzione! Questa azione non può essere annullata.</p>
     </div>
 
+    <!-- Campo nascosto per memorizzare l'ID della mail originale -->
+    <input type="hidden" id="entryID" value="">
+
     <script>
         // Funzione per leggere i parametri dall'URL
         function getParameterByName(name, url = window.location.href) {
@@ -99,6 +102,7 @@
         const amount = getParameterByName('amount');
         const senderEmail = getParameterByName('sender'); // Mittente (preso dall'Excel)
         const cc = getParameterByName('cc'); // Destinatari in CC (presi dall'Excel)
+        const entryID = getParameterByName('entryID'); // ID della mail originale
 
         // Mostra i dati nella pagina
         document.getElementById('quote-number').textContent = quoteID;
@@ -107,16 +111,17 @@
         document.getElementById('languages').textContent = languages;
         document.getElementById('amount').textContent = amount;
 
+        // Imposta l'ID della mail originale nel campo nascosto
+        document.getElementById('entryID').value = entryID;
+
         // Funzione per gestire la risposta
         function sendResponse(response) {
-            // Combina "QUOTE: ", quoteID e subject per creare il subject della mail di risposta
             const mailSubject = "QUOTE: " + quoteID + " - " + subject;
-
-            // Definisci il corpo della mail in base alla risposta
             const body = response === 'accept' ? 'ACCETTO IL PREVENTIVO.' : 'RIFIUTO IL PREVENTIVO.';
+            const entryID = document.getElementById('entryID').value;
 
-            // Costruisci il link mailto: (senza CCN)
-            const mailtoLink = `mailto:${senderEmail}?cc=${cc}&subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(body)}`;
+            // Costruisci il link mailto: con l'ID della mail originale
+            const mailtoLink = `mailto:${senderEmail}?cc=${cc}&subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(body)}&inReplyTo=${entryID}`;
 
             // Apri il client di posta
             window.location.href = mailtoLink;
