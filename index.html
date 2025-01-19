@@ -63,7 +63,6 @@
 <body>
     <div class="container">
         <div class="header">
-            <!-- Percorso corretto per l'immagine -->
             <img src="images/logo_2.png" alt="Logo DEMA Solutions">
         </div>
         <h2>Prendi una decisione in merito al preventivo</h2>
@@ -94,7 +93,7 @@
 
         // Recupera i parametri dall'URL
         const quoteID = getParameterByName('quoteID');
-        const subject = getParameterByName('subject');
+        const subject = getParameterByName('subject'); // Subject già combinato (B1 - B2)
         const service = getParameterByName('service');
         const languages = getParameterByName('languages');
         const amount = getParameterByName('amount');
