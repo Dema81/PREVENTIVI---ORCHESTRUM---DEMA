@@ -117,9 +117,23 @@
         // Funzione per gestire la risposta
         function sendResponse(response) {
             const mailSubject = "QUOTE: " + quoteID + " - " + subject;
-            const body = response === 'accept' 
-                ? 'ACCETTO IL PREVENTIVO.\n\nRiferimento Mail Originale: ' + entryID 
-                : 'RIFIUTO IL PREVENTIVO.\n\nRiferimento Mail Originale: ' + entryID;
+
+            // Costruisci il corpo della mail con tutti i dettagli
+            let body = "";
+            if (response === 'accept') {
+                body = "ACCETTO IL PREVENTIVO.\n\n";
+            } else {
+                body = "RIFIUTO IL PREVENTIVO.\n\n";
+            }
+
+            body += "Dettagli del preventivo:\n";
+            body += "------------------------\n";
+            body += "Quote ID: " + quoteID + "\n";
+            body += "Subject: " + subject + "\n";
+            body += "Service: " + service + "\n";
+            body += "Languages: " + languages + "\n";
+            body += "Amount: " + amount + "\n\n";
+            body += "Riferimento Mail Originale: " + entryID;
 
             // Costruisci il link mailto:
             const mailtoLink = `mailto:${senderEmail}?cc=${cc}&subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(body)}`;
