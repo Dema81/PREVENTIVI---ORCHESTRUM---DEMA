@@ -99,7 +99,6 @@
         const amount = getParameterByName('amount');
         const senderEmail = getParameterByName('sender'); // Mittente (preso dall'Excel)
         const cc = getParameterByName('cc'); // Destinatari in CC (presi dall'Excel)
-        const bcc = getParameterByName('bcc'); // Destinatari in CCN (presi dall'Excel)
 
         // Mostra i dati nella pagina
         document.getElementById('quote-number').textContent = quoteID;
@@ -116,7 +115,7 @@
             // Definisci il corpo della mail in base alla risposta
             const body = response === 'accept' ? 'ACCETTO IL PREVENTIVO.' : 'RIFIUTO IL PREVENTIVO.';
 
-            // Costruisci il link mailto:
+            // Costruisci il link mailto: (senza CCN)
             const mailtoLink = `mailto:${senderEmail}?cc=${cc}&subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(body)}`;
 
             // Apri il client di posta
