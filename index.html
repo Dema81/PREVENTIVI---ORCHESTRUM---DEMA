@@ -117,11 +117,12 @@
         // Funzione per gestire la risposta
         function sendResponse(response) {
             const mailSubject = "QUOTE: " + quoteID + " - " + subject;
-            const body = response === 'accept' ? 'ACCETTO IL PREVENTIVO.' : 'RIFIUTO IL PREVENTIVO.';
-            const entryID = document.getElementById('entryID').value;
+            const body = response === 'accept' 
+                ? 'ACCETTO IL PREVENTIVO.\n\nRiferimento Mail Originale: ' + entryID 
+                : 'RIFIUTO IL PREVENTIVO.\n\nRiferimento Mail Originale: ' + entryID;
 
-            // Costruisci il link mailto: con l'ID della mail originale
-            const mailtoLink = `mailto:${senderEmail}?cc=${cc}&subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(body)}&inReplyTo=${entryID}`;
+            // Costruisci il link mailto:
+            const mailtoLink = `mailto:${senderEmail}?cc=${cc}&subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(body)}`;
 
             // Apri il client di posta
             window.location.href = mailtoLink;
