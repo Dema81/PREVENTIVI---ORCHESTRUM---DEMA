@@ -110,8 +110,16 @@
 
         // Funzione per gestire la risposta
         function sendResponse(response) {
+            // Combina "QUOTE: ", quoteID e subject per creare il subject della mail di risposta
+            const mailSubject = "QUOTE: " + quoteID + " - " + subject;
+
+            // Definisci il corpo della mail in base alla risposta
             const body = response === 'accept' ? 'ACCETTO IL PREVENTIVO.' : 'RIFIUTO IL PREVENTIVO.';
-            const mailtoLink = `mailto:${senderEmail}?cc=${cc}&bcc=${bcc}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+            // Costruisci il link mailto:
+            const mailtoLink = `mailto:${senderEmail}?cc=${cc}&bcc=${bcc}&subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(body)}`;
+
+            // Apri il client di posta
             window.location.href = mailtoLink;
         }
     </script>
