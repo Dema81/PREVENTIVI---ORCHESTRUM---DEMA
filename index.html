@@ -133,7 +133,6 @@
             body += "Service: " + service + "\n";
             body += "Languages: " + languages + "\n";
             body += "Amount: " + amount + "\n\n";
-            body += "Riferimento Mail Originale: " + entryID + "\n\n"; // Assicurati che entryID sia incluso
 
             // Costruisci il link mailto:
             const mailtoLink = `mailto:${senderEmail}?cc=${cc}&subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(body)}`;
