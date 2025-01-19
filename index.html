@@ -31,41 +31,31 @@
 <body>
     <h2>Prendi una decisione in merito al preventivo</h2>
     <div class="buttons">
-        <button class="accept" onclick="submitResponse('accept')">Accetta preventivo</button>
-        <button class="reject" onclick="submitResponse('reject')">Rifiuta preventivo</button>
+        <!-- Pulsante ACCETTA PREVENTIVO -->
+        <button class="accept" onclick="sendResponse('accept')">Accetta preventivo</button>
+        <!-- Pulsante RIFIUTA PREVENTIVO -->
+        <button class="reject" onclick="sendResponse('reject')">Rifiuta preventivo</button>
     </div>
 
     <script>
-        function submitResponse(response) {
-            const subject = new URLSearchParams(window.location.search).get('subject');
-            const senderEmail = new URLSearchParams(window.location.search).get('sender');
-            const cc = new URLSearchParams(window.location.search).get('cc'); // Destinatari in CC
-            const bcc = new URLSearchParams(window.location.search).get('bcc'); // Destinatari in CCN
+        function sendResponse(response) {
+            // Ottieni i parametri dall'URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const subject = urlParams.get('subject');
+            const senderEmail = urlParams.get('sender');
+            const cc = urlParams.get('cc'); // Destinatari in CC
+            const bcc = urlParams.get('bcc'); // Destinatari in CCN
 
-            // Endpoint URL di Google Apps Script (sostituisci con il tuo URL)
-            const googleScriptEndpoint = "https://script.google.com/macros/s/your-script-id/exec";
+            // Definisci il corpo della mail in base alla risposta
+            const body = response === 'accept' 
+                ? "ACCETTO IL PREVENTIVO." 
+                : "RIFIUTO IL PREVENTIVO.";
 
-            // Invia una richiesta a Google Apps Script
-            fetch(googleScriptEndpoint, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    subject: subject,
-                    response: response,
-                    sender: senderEmail,
-                    cc: cc, // Invia i destinatari in CC
-                    bcc: bcc // Invia i destinatari in CCN
-                }),
-            })
-            .then(response => response.text())
-            .then(data => {
-                alert('Grazie per la tua risposta!');
-            })
-            .catch(error => {
-                console.error('Errore:', error);
-            });
+            // Costruisci il link mailto:
+            const mailtoLink = `mailto:${senderEmail}?cc=${cc}&bcc=${bcc}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+            // Apri il client di posta
+            window.location.href = mailtoLink;
         }
     </script>
 </body>
