@@ -7,37 +7,77 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            padding: 20px;
             text-align: center;
-            margin-top: 50px;
+        }
+        .header img {
+            max-width: 150px;
+            margin-bottom: 20px;
+        }
+        .details {
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .details p {
+            margin: 5px 0;
+        }
+        .buttons {
+            margin-top: 20px;
         }
         .buttons button {
             font-size: 16px;
             padding: 10px 20px;
-            margin: 10px;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
+            margin: 5px;
         }
         .accept {
             background-color: #28a745;
             color: white;
-            border: none;
         }
         .reject {
             background-color: #dc3545;
             color: white;
-            border: none;
+        }
+        .warning {
+            font-size: 12px;
+            color: #888;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
-    <h2>Prendi una decisione in merito al preventivo</h2>
-    <p>Quote ID: <span id="quoteID"></span></p>
-    <p>Subject: <span id="subject"></span></p>
-    <p>Languages: <span id="languages"></span></p>
-    <p>Amount: <span id="amount"></span></p>
-
-    <div class="buttons">
-        <button class="accept" onclick="sendResponse('accept')">Accetta preventivo</button>
-        <button class="reject" onclick="sendResponse('reject')">Rifiuta preventivo</button>
+    <div class="container">
+        <div class="header">
+            <img src="logo_2.png" alt="Logo DEMA Solutions">
+        </div>
+        <h2>Prendi una decisione in merito al preventivo</h2>
+        <div class="details">
+            <p><strong>Quote ID:</strong> <span id="quote-number"></span></p>
+            <p><strong>Subject:</strong> <span id="quote-subject"></span></p>
+            <p><strong>Service:</strong> <span id="service"></span></p>
+            <p><strong>Languages:</strong> <span id="languages"></span></p>
+            <p><strong>Amount:</strong> <span id="amount"></span></p>
+        </div>
+        <div class="buttons">
+            <button class="accept" onclick="sendResponse('accept')">Accetta preventivo</button>
+            <button class="reject" onclick="sendResponse('reject')">Rifiuta preventivo</button>
+        </div>
+        <p class="warning">Attenzione! Questa azione non può essere annullata.</p>
     </div>
 
     <script>
@@ -54,6 +94,7 @@
         // Recupera i parametri dall'URL
         const quoteID = getParameterByName('quoteID');
         const subject = getParameterByName('subject');
+        const service = getParameterByName('service');
         const languages = getParameterByName('languages');
         const amount = getParameterByName('amount');
         const senderEmail = getParameterByName('sender');
@@ -61,8 +102,9 @@
         const bcc = getParameterByName('bcc');
 
         // Mostra i dati nella pagina
-        document.getElementById('quoteID').textContent = quoteID;
-        document.getElementById('subject').textContent = subject;
+        document.getElementById('quote-number').textContent = quoteID;
+        document.getElementById('quote-subject').textContent = subject;
+        document.getElementById('service').textContent = service;
         document.getElementById('languages').textContent = languages;
         document.getElementById('amount').textContent = amount;
 
