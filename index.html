@@ -39,12 +39,14 @@
         function submitResponse(response) {
             const subject = new URLSearchParams(window.location.search).get('subject');
             const senderEmail = new URLSearchParams(window.location.search).get('sender');
+            const cc = new URLSearchParams(window.location.search).get('cc'); // Destinatari in CC
+            const bcc = new URLSearchParams(window.location.search).get('bcc'); // Destinatari in CCN
 
-            // Endpoint URL di Formspree (usa il tuo endpoint)
-            const formspreeEndpoint = "https://formspree.io/f/movvoled";
+            // Endpoint URL di Google Apps Script (sostituisci con il tuo URL)
+            const googleScriptEndpoint = "https://script.google.com/macros/s/your-script-id/exec";
 
-            // Invia una richiesta a Formspree
-            fetch(formspreeEndpoint, {
+            // Invia una richiesta a Google Apps Script
+            fetch(googleScriptEndpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -52,10 +54,12 @@
                 body: JSON.stringify({
                     subject: subject,
                     response: response,
-                    sender: senderEmail
+                    sender: senderEmail,
+                    cc: cc, // Invia i destinatari in CC
+                    bcc: bcc // Invia i destinatari in CCN
                 }),
             })
-            .then(response => response.json())
+            .then(response => response.text())
             .then(data => {
                 alert('Grazie per la tua risposta!');
             })
