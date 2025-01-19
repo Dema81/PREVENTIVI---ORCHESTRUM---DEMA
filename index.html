@@ -1,62 +1,36 @@
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decisione sul Preventivo</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
-        }
-        .buttons button {
-            font-size: 16px;
-            padding: 10px 20px;
-            margin: 10px;
-            cursor: pointer;
-        }
-        .accept {
-            background-color: #28a745;
-            color: white;
-            border: none;
-        }
-        .reject {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-        }
-    </style>
-</head>
-<body>
-    <h2>Prendi una decisione in merito al preventivo</h2>
-    <div class="buttons">
-        <!-- Pulsante ACCETTA PREVENTIVO -->
-        <button class="accept" onclick="sendResponse('accept')">Accetta preventivo</button>
-        <!-- Pulsante RIFIUTA PREVENTIVO -->
-        <button class="reject" onclick="sendResponse('reject')">Rifiuta preventivo</button>
-    </div>
+Sub GeneraLinkHTML()
+    Dim ws As Worksheet
+    Dim baseURL As String
+    Dim quoteID As String
+    Dim subject As String
+    Dim languages As String
+    Dim amount As String
+    Dim senderEmail As String
+    Dim cc As String
+    Dim bcc As String
+    Dim fullURL As String
 
-    <script>
-        function sendResponse(response) {
-            // Ottieni i parametri dall'URL
-            const urlParams = new URLSearchParams(window.location.search);
-            const subject = urlParams.get('subject');
-            const senderEmail = urlParams.get('sender');
-            const cc = urlParams.get('cc'); // Destinatari in CC
-            const bcc = urlParams.get('bcc'); // Destinatari in CCN
+    ' Imposta il foglio attivo
+    Set ws = ThisWorkbook.ActiveSheet
 
-            // Definisci il corpo della mail in base alla risposta
-            const body = response === 'accept' 
-                ? "ACCETTO IL PREVENTIVO." 
-                : "RIFIUTO IL PREVENTIVO.";
+    ' URL base del file HTML su GitHub
+    baseURL = "https://dema81.github.io/PREVENTIVI---ORCHESTRUM---DEMA"
 
-            // Costruisci il link mailto:
-            const mailtoLink = `mailto:${senderEmail}?cc=${cc}&bcc=${bcc}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    ' Recupera i dati dalle celle di Excel (A1 a B5)
+    quoteID = ws.Range("A1").Value
+    subject = ws.Range("A2").Value
+    languages = ws.Range("A3").Value
+    amount = ws.Range("A4").Value
+    senderEmail = ws.Range("A5").Value
+    cc = ws.Range("B1").Value
+    bcc = ws.Range("B2").Value
 
-            // Apri il client di posta
-            window.location.href = mailtoLink;
-        }
-    </script>
-</body>
-</html>
+    ' Costruisci l'URL completo con i parametri
+    fullURL = baseURL & "?quoteID=" & quoteID & "&subject=" & subject & "&languages=" & languages & "&amount=" & amount & "&sender=" & senderEmail & "&cc=" & cc & "&bcc=" & bcc
+
+    ' Mostra l'URL generato
+    MsgBox "Link generato: " & fullURL
+
+    ' Apri il link nel browser predefinito
+    Shell "cmd /c start " & fullURL, vbNormalFocus
+End Sub
