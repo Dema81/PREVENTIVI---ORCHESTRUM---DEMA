@@ -40,8 +40,11 @@
             const subject = new URLSearchParams(window.location.search).get('subject');
             const senderEmail = new URLSearchParams(window.location.search).get('sender');
 
-            // Invia una richiesta a un servizio esterno (es. Formspree, Google Apps Script)
-            fetch('https://your-service-endpoint.com', {
+            // Endpoint URL di Formspree (usa il tuo endpoint)
+            const formspreeEndpoint = "https://formspree.io/f/movvoled";
+
+            // Invia una richiesta a Formspree
+            fetch(formspreeEndpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
