@@ -1,36 +1,77 @@
-Sub GeneraLinkHTML()
-    Dim ws As Worksheet
-    Dim baseURL As String
-    Dim quoteID As String
-    Dim subject As String
-    Dim languages As String
-    Dim amount As String
-    Dim senderEmail As String
-    Dim cc As String
-    Dim bcc As String
-    Dim fullURL As String
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decisione sul Preventivo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .buttons button {
+            font-size: 16px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .accept {
+            background-color: #28a745;
+            color: white;
+            border: none;
+        }
+        .reject {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h2>Prendi una decisione in merito al preventivo</h2>
+    <p>Quote ID: <span id="quoteID"></span></p>
+    <p>Subject: <span id="subject"></span></p>
+    <p>Languages: <span id="languages"></span></p>
+    <p>Amount: <span id="amount"></span></p>
 
-    ' Imposta il foglio attivo
-    Set ws = ThisWorkbook.ActiveSheet
+    <div class="buttons">
+        <button class="accept" onclick="sendResponse('accept')">Accetta preventivo</button>
+        <button class="reject" onclick="sendResponse('reject')">Rifiuta preventivo</button>
+    </div>
 
-    ' URL base del file HTML su GitHub
-    baseURL = "https://dema81.github.io/PREVENTIVI---ORCHESTRUM---DEMA"
+    <script>
+        // Funzione per leggere i parametri dall'URL
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            let regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
 
-    ' Recupera i dati dalle celle di Excel (A1 a B5)
-    quoteID = ws.Range("A1").Value
-    subject = ws.Range("A2").Value
-    languages = ws.Range("A3").Value
-    amount = ws.Range("A4").Value
-    senderEmail = ws.Range("A5").Value
-    cc = ws.Range("B1").Value
-    bcc = ws.Range("B2").Value
+        // Recupera i parametri dall'URL
+        const quoteID = getParameterByName('quoteID');
+        const subject = getParameterByName('subject');
+        const languages = getParameterByName('languages');
+        const amount = getParameterByName('amount');
+        const senderEmail = getParameterByName('sender');
+        const cc = getParameterByName('cc');
+        const bcc = getParameterByName('bcc');
 
-    ' Costruisci l'URL completo con i parametri
-    fullURL = baseURL & "?quoteID=" & quoteID & "&subject=" & subject & "&languages=" & languages & "&amount=" & amount & "&sender=" & senderEmail & "&cc=" & cc & "&bcc=" & bcc
+        // Mostra i dati nella pagina
+        document.getElementById('quoteID').textContent = quoteID;
+        document.getElementById('subject').textContent = subject;
+        document.getElementById('languages').textContent = languages;
+        document.getElementById('amount').textContent = amount;
 
-    ' Mostra l'URL generato
-    MsgBox "Link generato: " & fullURL
-
-    ' Apri il link nel browser predefinito
-    Shell "cmd /c start " & fullURL, vbNormalFocus
-End Sub
+        // Funzione per gestire la risposta
+        function sendResponse(response) {
+            const body = response === 'accept' ? 'ACCETTO IL PREVENTIVO.' : 'RIFIUTO IL PREVENTIVO.';
+            const mailtoLink = `mailto:${senderEmail}?cc=${cc}&bcc=${bcc}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+        }
+    </script>
+</body>
+</html>
