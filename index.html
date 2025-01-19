@@ -117,7 +117,7 @@
             const body = response === 'accept' ? 'ACCETTO IL PREVENTIVO.' : 'RIFIUTO IL PREVENTIVO.';
 
             // Costruisci il link mailto:
-            const mailtoLink = `mailto:${senderEmail}?cc=${cc}&bcc=${bcc}&subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(body)}`;
+            const mailtoLink = `mailto:${senderEmail}?cc=${cc}&subject=${encodeURIComponent(mailSubject)}&body=${encodeURIComponent(body)}`;
 
             // Apri il client di posta
             window.location.href = mailtoLink;
