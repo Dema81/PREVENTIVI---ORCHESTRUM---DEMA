@@ -97,9 +97,9 @@
         const service = getParameterByName('service');
         const languages = getParameterByName('languages');
         const amount = getParameterByName('amount');
-        const senderEmail = getParameterByName('sender');
-        const cc = getParameterByName('cc');
-        const bcc = getParameterByName('bcc');
+        const senderEmail = getParameterByName('sender'); // Mittente (preso dall'Excel)
+        const cc = getParameterByName('cc'); // Destinatari in CC (presi dall'Excel)
+        const bcc = getParameterByName('bcc'); // Destinatari in CCN (presi dall'Excel)
 
         // Mostra i dati nella pagina
         document.getElementById('quote-number').textContent = quoteID;
